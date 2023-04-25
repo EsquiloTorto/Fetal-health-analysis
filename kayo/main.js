@@ -1,4 +1,76 @@
-function sccaterplot() {
+function heatmap() {
+    // Import csv data
+    var corr_data = d3.csv("../hedler/corr_data.csv", d3.autoType);
+
+    // columns analyzed
+    var columns = [
+        'accelerations',
+        'prolongued_decelerations',
+        'abnormal_short_term_variability',
+        'histogram_mean',
+        'histogram_variance',
+        'fetal_health'
+    ];
+    var n_columns = columns.length;
+
+    corr_data.then( data => {
+        // base parameters
+        const width = 200;
+        const height = 200;
+        const cellWidth = width/n_columns;
+        const cellHeight = height/n_columns;
+        const fontSize = 10;
+        const paddingRight = 200;
+        const paddingBottom = 100;
+        
+        // svg container creation
+        const svg = d3.select('#vini')
+            .attr('width', width + paddingRight)
+            .attr('height', height + paddingBottom)
+
+        // fill scales
+        const colorMin = 'blue';
+        const colorMid = 'white';
+        const colorMax = 'red';
+
+        var scaleFill = d3.scaleDiverging()
+            .domain([-1, 0, 1])
+            .range([colorMin, colorMid, colorMax])
+
+        columns.forEach( function(element){
+            
+            svg.selectAll()
+            .data(data)
+            .join('rect')
+            .attr('width', cellWidth)
+            .attr('height', cellHeight)
+            .attr('x', columns.indexOf(element)*cellWidth )
+            .attr('y', function(d, i){ return i*cellHeight } )
+            .attr('fill', d => scaleFill(d[element]) );
+
+            svg.selectAll()
+            .data(data)
+            .join('text')
+            .attr('x', d => (0.5 + columns.indexOf(element))*cellWidth -fontSize/4*((Math.round(d[element]*100)/100).toString().length))
+            .attr('y', function(d, i){ return (0.5 + i)*cellHeight + fontSize/2} )
+            .text(d => Math.round(d[element]*100)/100 )
+            .style('font-size', fontSize + 'px');
+
+        if (columns.indexOf(element)==n_columns-1){
+            svg.selectAll()
+            .data(data)
+            .join('text')
+                .attr('x', (columns.indexOf(element)+1.1)*cellWidth)
+                .attr('y', function(d, i){ return (0.5 + i)*cellHeight + fontSize/2} )
+                .text(function(d, i){ return columns[i] })
+                .style('font-size', fontSize + 'px');
+            };
+
+    });
+}
+)}
+
+function scatterplot() {
     // Import csv data
     var fetal_health = d3.csv("../dataset/fetal_health.csv", d3.autoType);
 
@@ -60,7 +132,9 @@ function sccaterplot() {
     // Create the x-axis and y-axis
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
-  
+    
+    
+    // Add the x-axis and y-axis to the plot
     svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', `translate(0, ${height})`)
@@ -70,7 +144,7 @@ function sccaterplot() {
       .attr('class', 'y axis')
       .call(yAxis);
   
-    // Create a barchart with the sum of the count of each category
+    // Create the circles
     const circles = svg.selectAll('circle')
         .data(data)
         .enter()
@@ -87,9 +161,10 @@ function sccaterplot() {
                 return 'green';
             } else {
                 return 'blue';
-            }
+            };
         });
-    
+
+
     // Update the plot
     function updatePlotX() {
         // Get the selected x variable from the dropdown
@@ -134,9 +209,105 @@ function sccaterplot() {
         .attr('cy', function (d) { return yScale(d[yVar])});
     
     }
-    
+
     // Listen for changes in the dropdown
     d3.select("#y-select").on("change", updatePlotY);
+
+        // Add brush functionality
+        const brush = d3.brush()
+        .extent([[0, 0], [width, height]])
+        .on('brush', updateBrush);
+
+    svg.append('g')
+        .attr('class', 'brush')
+        .call(brush);
+    
+    // Add counter for brushed circles
+    const brushCounter = d3.selectAll('#brush-counter');
+
+    // Create the counter
+    const counter1 = svg.append('text')
+    .attr('class', 'counter')
+    .attr('x', 0)
+    .attr('y', height + 30)
+    .text('Normal Fetus: 0');
+
+    // Create the counter
+    const counter2 = svg.append('text')
+    .attr('class', 'counter')
+    .attr('x', 180)
+    .attr('y', height + 30)
+    .text('Suspect Fetus: 0');
+
+    // Create the counter
+    const counter3 = svg.append('text')
+    .attr('class', 'counter')
+    .attr('x', 0)
+    .attr('y', height + 50)
+    .text('Pathogocial Fetus: 0');
+
+    // Create the counter
+    const counter4 = svg.append('text')
+    .attr('class', 'counter')
+    .attr('x', 180)
+    .attr('y', height + 50)
+    .text('Total: 0');
+
+    let brushedCircles_1 = [];
+    let brushedCircles_2 = [];
+    let brushedCircles_3 = [];
+    let brushedCircles_4 = [];
+
+    function updateBrush(event) {
+        if (event.selection) {
+            // Get normal fetus
+            brushedCircles_1 = circles.filter(function(d) {
+                if (d3.select(this).attr('fill') === 'red') {
+                    const [x, y] = [d3.select(this).attr("cx"), d3.select(this).attr('cy')];
+                    return x >= event.selection[0][0] && x <= event.selection[1][0]
+                    && y >= event.selection[0][1] && y <= event.selection[1][1]
+                    && d3.select(this).attr('fill') === 'red';
+                }
+            })
+            // Get suspect fetus
+            brushedCircles_2 = circles.filter(function(d) {
+                if (d3.select(this).attr('fill') === 'green') {
+                    const [x, y] = [d3.select(this).attr("cx"), d3.select(this).attr('cy')];
+                    return x >= event.selection[0][0] && x <= event.selection[1][0]
+                    && y >= event.selection[0][1] && y <= event.selection[1][1]
+                    && d3.select(this).attr('fill') === 'green';
+                }
+            })
+            // Get pathogocial fetus
+            brushedCircles_3 = circles.filter(function(d) {
+                if (d3.select(this).attr('fill') === 'blue') {
+                    const [x, y] = [d3.select(this).attr("cx"), d3.select(this).attr('cy')];
+                    return x >= event.selection[0][0] && x <= event.selection[1][0]
+                    && y >= event.selection[0][1] && y <= event.selection[1][1]
+                    && d3.select(this).attr('fill') === 'blue';
+                }
+            })
+            // Get total
+            brushedCircles_4 = circles.style("fill", "gray").filter(function(d) {
+                const [x, y] = [d3.select(this).attr("cx"), d3.select(this).attr('cy')];
+                return x >= event.selection[0][0] && x <= event.selection[1][0]
+                    && y >= event.selection[0][1] && y <= event.selection[1][1];
+            }).style("fill", function(d) {
+                if (d.fetal_health === 1) {
+                    return 'red';
+                } else if (d.fetal_health === 2) {
+                    return 'green';
+                } else {
+                    return 'blue';
+                }
+            })
+            ;
+            }         
+            counter1.text(`Normal Fetus: ${brushedCircles_1.size()}`);
+            counter2.text(`Suspect Fetus: ${brushedCircles_2.size()}`);
+            counter3.text(`Pathogocial Fetus: ${brushedCircles_3.size()}`);
+            counter4.text(`Total: ${brushedCircles_4.size()}`);
+        }     
     
     });
 };

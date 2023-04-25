@@ -1,6 +1,6 @@
 function main() {
     // Import csv data
-    var corr_data = d3.csv("data/corr_data.csv", d3.autoType);
+    var corr_data = d3.csv("corr_data.csv", d3.autoType);
 
     // columns analyzed
     var columns = [
