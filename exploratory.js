@@ -1,62 +1,72 @@
-function main(){
+function main() {
+    // Import csv data
+    var corr_data = d3.csv("data/corr_data.csv", d3.autoType);
 
-    // const data = [1, 4, 9, 16]
+    // columns analyzed
+    var columns = [
+        'accelerations',
+        'prolongued_decelerations',
+        'abnormal_short_term_variability',
+        'histogram_mean',
+        'histogram_variance',
+        'fetal_health'
+    ];
+    var n_columns = columns.length;
 
-    // d3.selectAll('svg')
-    //     .data(data)
-    //     .append('circle')
-    //         .attr('opacity', 1)
-    //         .attr('fill', 'black')
-    //         .attr('cx', 200)
-    //         .attr('cy', 100)
-    //         .attr('r', 10)
-
-
-    const width = 100;
-    const height = 200;
-
-    const svg = d3.selectAll('svg') 
-
-    d3.csv('data/fetal_health.csv').then(function(data){
+    corr_data.then( data => {
+        // base parameters
+        const width = 200;
+        const height = 200;
+        const cellWidth = width/n_columns;
+        const cellHeight = height/n_columns;
+        const fontSize = 10;
+        const paddingRight = 200;
+        const paddingBottom = 100;
         
-        console.log(data[1]);   
+        // svg container creation
+        const svg = d3.select('#vini')
+            .attr('width', width + paddingRight)
+            .attr('height', height + paddingBottom)
+            .attr('style', 'background-color:whitesmoke')
 
-        // let rect = svg.selectAll("rect")
-        //     .data(data)
-        //     .join("rect")
-        //     .attr('opacity', 1)
-        //     .attr('fill', 'black')
-        //     .attr('x', function(d, i){return i*2})
-        //     .attr('y', 100)
-        //     .attr('width', 1)
-        //     .attr('height', d => d['baseline value']);
+        // fill scales
+        const colorMin = 'blue';
+        const colorMid = 'white';
+        const colorMax = 'red';
 
-        var x = d3.scaleLinear()
-        .domain([120, 150])
-        .range([0, width]);
+        var scaleFill = d3.scaleDiverging()
+            .domain([-1, 0, 1])
+            .range([colorMin, colorMid, colorMax])
 
-        let histogram = d3.histogram()
-            .value(function(d) {return d['baseline value'];} )
-            .domain(x.domain())  // then the domain of the graphic
-            .thresholds(x.ticks(70))
-        
-        var bins = histogram(data)
+        columns.forEach( function(element){
             
-        var y = d3.scaleLinear()
-            .range([height, 0]);
-        
-        y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
-    
-        svg.append("g").call(d3.axisLeft(y));
+            svg.selectAll()
+            .data(data)
+            .join('rect')
+            .attr('width', cellWidth)
+            .attr('height', cellHeight)
+            .attr('x', columns.indexOf(element)*cellWidth )
+            .attr('y', function(d, i){ return i*cellHeight } )
+            .attr('fill', d => scaleFill(d[element]) );
 
-        svg.selectAll("rect")
-            .data(bins)
-            .enter()
-            .append('rect')
-                .attr('x', 1)
-                .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-                .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
-                .attr("height", function(d) { return height - y(d.length); })
-                .style("fill", "#69b3a2")
+            svg.selectAll()
+            .data(data)
+            .join('text')
+            .attr('x', d => (0.5 + columns.indexOf(element))*cellWidth -fontSize/4*((Math.round(d[element]*100)/100).toString().length))
+            .attr('y', function(d, i){ return (0.5 + i)*cellHeight + fontSize/2} )
+            .text(d => Math.round(d[element]*100)/100 )
+            .style('font-size', fontSize + 'px');
+
+        if (columns.indexOf(element)==n_columns-1){
+            svg.selectAll()
+            .data(data)
+            .join('text')
+                .attr('x', (columns.indexOf(element)+1.1)*cellWidth)
+                .attr('y', function(d, i){ return (0.5 + i)*cellHeight + fontSize/2} )
+                .text(function(d, i){ return columns[i] })
+                .style('font-size', fontSize + 'px');
+            };
+
     });
 }
+)}
