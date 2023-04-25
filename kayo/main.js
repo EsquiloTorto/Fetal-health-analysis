@@ -106,7 +106,7 @@ function scatterplot() {
       .text(function (d) { return d; }) // text showed in the menu
       .attr("value", function (d) { return d; }) // corresponding value returned by the button
 
-    const margin = { top: 20, right: 20, bottom: 60, left: 60 };
+    const margin = { top: 20, right: 20, bottom: 80, left: 60 };
     const width = 400 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
@@ -253,6 +253,13 @@ function scatterplot() {
     .attr('y', height + 50)
     .text('Total: 0');
 
+    // Create the counter
+    const counter5 = svg.append('text')
+    .attr('class', 'counter')
+    .attr('x', 0)
+    .attr('y', height + 70)
+    .text('Pathological per normal: 0');
+
     let brushedCircles_1 = [];
     let brushedCircles_2 = [];
     let brushedCircles_3 = [];
@@ -307,6 +314,16 @@ function scatterplot() {
             counter2.text(`Suspect Fetus: ${brushedCircles_2.size()}`);
             counter3.text(`Pathogocial Fetus: ${brushedCircles_3.size()}`);
             counter4.text(`Total: ${brushedCircles_4.size()}`);
+
+            var proportion;
+            if (brushedCircles_1.size()>0){
+                proportion = brushedCircles_3.size()/brushedCircles_1.size();
+            } else{
+                proportion = 'inf';
+            };
+
+            counter5.text(`Pathological per normal: ${Math.round(proportion*100)/100}`)
+
         }     
     
     });
