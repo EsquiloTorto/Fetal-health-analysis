@@ -106,6 +106,15 @@ function scatterplot() {
       .text(function (d) { return d; }) // text showed in the menu
       .attr("value", function (d) { return d; }) // corresponding value returned by the button
 
+    // add the options to the button
+    d3.select("#r-select")
+      .selectAll('myOptions')
+     	.data(columns)
+      .enter()
+    	.append('option')
+      .text(function (d) { return d; }) // text showed in the menu
+      .attr("value", function (d) { return d; }) // corresponding value returned by the button
+
     const margin = { top: 20, right: 20, bottom: 80, left: 60 };
     const width = 400 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
@@ -128,6 +137,10 @@ function scatterplot() {
     const yScale = d3.scaleLinear()
       .domain([d3.min(data, d => +d.baseline_value), d3.max(data, d => +d.baseline_value)])
       .range([height, 0]);
+    
+    const rScale = d3.scaleLinear()
+      .domain([d3.min(data, d => +d.baseline_value), d3.max(data, d => +d.baseline_value)])
+      .range([1, 10]);
   
     // Create the x-axis and y-axis
     const xAxis = d3.axisBottom(xScale);
@@ -207,11 +220,28 @@ function scatterplot() {
         circles.transition()
         .duration(1000)
         .attr('cy', function (d) { return yScale(d[yVar])});
-    
+        
     }
 
     // Listen for changes in the dropdown
     d3.select("#y-select").on("change", updatePlotY);
+
+    // Update the plot r
+    function updatePlotR() {
+        // Get the selected r variable from the dropdown
+        rVar = d3.select("#r-select").property("value");
+    
+        // Update the r scale domain
+        rScale.domain([d3.min(data, d => +d[rVar]), d3.max(data, d => +d[rVar])]).range([2, 10]);
+    
+        // Update the circles with the new y values
+        circles.transition()
+        .duration(1000)
+        .attr('r', function (d) { return rScale(d[rVar])})
+        .attr('opacity', 0.5);
+    
+    }
+    d3.select("#r-select").on("change", updatePlotR);
 
         // Add brush functionality
         const brush = d3.brush()
