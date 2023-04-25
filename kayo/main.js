@@ -283,7 +283,7 @@ function scatterplot() {
     .attr('class', 'counter')
     .attr('x', 0)
     .attr('y', height + 70)
-    .text('Pathological per normal: 0');
+    .text('Odds pathological: 0');
 
     let brushedCircles_1 = [];
     let brushedCircles_2 = [];
@@ -339,15 +339,7 @@ function scatterplot() {
             counter2.text(`Suspect Fetus: ${brushedCircles_2.size()}`);
             counter3.text(`Pathogocial Fetus: ${brushedCircles_3.size()}`);
             counter4.text(`Total: ${brushedCircles_4.size()}`);
-
-            var proportion;
-            if (brushedCircles_1.size()>0){
-                proportion = brushedCircles_3.size()/brushedCircles_1.size();
-            } else{
-                proportion = 'inf';
-            };
-
-            counter5.text(`Pathological per normal: ${Math.round(proportion*100)/100}`)
+            counter5.text(`Odds pathological: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
 
         }     
     
