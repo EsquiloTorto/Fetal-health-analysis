@@ -216,13 +216,21 @@ function scatterplot() {
                 }
             })
             // Get total
-            brushedCircles_4 = circles.filter(function(d) {
+            brushedCircles_4 = circles.style("fill", "gray").filter(function(d) {
                 const [x, y] = [d3.select(this).attr("cx"), d3.select(this).attr('cy')];
                 return x >= event.selection[0][0] && x <= event.selection[1][0]
                     && y >= event.selection[0][1] && y <= event.selection[1][1];
+            }).style("fill", function(d) {
+                if (d.fetal_health === 1) {
+                    return 'red';
+                } else if (d.fetal_health === 2) {
+                    return 'green';
+                } else {
+                    return 'blue';
+                }
             })
             ;
-            }
+            }         
             counter1.text(`Normal Fetus: ${brushedCircles_1.size()}`);
             counter2.text(`Suspect Fetus: ${brushedCircles_2.size()}`);
             counter3.text(`Pathogocial Fetus: ${brushedCircles_3.size()}`);
