@@ -15,12 +15,12 @@ function heatmap() {
 
     corr_data.then( data => {
         // base parameters
-        const width = 200;
+        const width = 250;
         const height = 200;
         const cellWidth = width/n_columns;
         const cellHeight = height/n_columns;
         const fontSize = 10;
-        const paddingRight = 200;
+        const paddingRight = 250;
         const paddingBottom = 100;
         
         // svg container creation
@@ -133,7 +133,6 @@ function scatterplot() {
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
     
-    
     // Add the x-axis and y-axis to the plot
     svg.append('g')
       .attr('class', 'x axis')
@@ -143,6 +142,7 @@ function scatterplot() {
     svg.append('g')
       .attr('class', 'y axis')
       .call(yAxis);
+
   
     // Create the circles
     const circles = svg.selectAll('circle')
@@ -232,6 +232,14 @@ function scatterplot() {
     .attr('y', height + 30)
     .text('Normal Fetus: 0');
 
+    // Legend
+    svg.append("rect")
+    .attr("x", -15)
+    .attr("y", height + 20)
+    .attr("width", 9)
+    .attr("height", 9)
+    .style("fill", "red")
+
     // Create the counter
     const counter2 = svg.append('text')
     .attr('class', 'counter')
@@ -239,12 +247,29 @@ function scatterplot() {
     .attr('y', height + 30)
     .text('Suspect Fetus: 0');
 
+    // Legend
+    svg.append("rect")
+    .attr("x", 165)
+    .attr("y", height + 20)
+    .attr("width", 9)
+    .attr("height", 9)
+    .style("fill", "green")
+
     // Create the counter
     const counter3 = svg.append('text')
     .attr('class', 'counter')
     .attr('x', 0)
     .attr('y', height + 50)
     .text('Pathogocial Fetus: 0');
+
+    // Legend
+    svg.append("rect")
+    .attr("x", -15)
+    .attr("y", height + 40)
+    .attr("width", 9)
+    .attr("height", 9)
+    .style("fill", "blue")
+
 
     // Create the counter
     const counter4 = svg.append('text')
@@ -310,77 +335,5 @@ function scatterplot() {
         }     
     
     });
+
 };
-
-function main() {
-    // Import csv data
-    var corr_data = d3.csv("data/corr_data.csv", d3.autoType);
-
-    // columns analyzed
-    var columns = [
-        'accelerations',
-        'prolongued_decelerations',
-        'abnormal_short_term_variability',
-        'histogram_mean',
-        'histogram_variance',
-        'fetal_health'
-    ];
-    var n_columns = columns.length;
-
-    corr_data.then( data => {
-        // base parameters
-        const width = 200;
-        const height = 200;
-        const cellWidth = width/n_columns;
-        const cellHeight = height/n_columns;
-        const fontSize = 10;
-        const paddingRight = 200;
-        const paddingBottom = 100;
-        
-        // svg container creation
-        const svg = d3.select('#vini')
-            .attr('width', width + paddingRight)
-            .attr('height', height + paddingBottom)
-            .attr('style', 'background-color:whitesmoke')
-
-        // fill scales
-        const colorMin = 'blue';
-        const colorMid = 'white';
-        const colorMax = 'red';
-
-        var scaleFill = d3.scaleDiverging()
-            .domain([-1, 0, 1])
-            .range([colorMin, colorMid, colorMax])
-
-        columns.forEach( function(element){
-            
-            svg.selectAll()
-            .data(data)
-            .join('rect')
-            .attr('width', cellWidth)
-            .attr('height', cellHeight)
-            .attr('x', columns.indexOf(element)*cellWidth )
-            .attr('y', function(d, i){ return i*cellHeight } )
-            .attr('fill', d => scaleFill(d[element]) );
-
-            svg.selectAll()
-            .data(data)
-            .join('text')
-            .attr('x', d => (0.5 + columns.indexOf(element))*cellWidth -fontSize/4*((Math.round(d[element]*100)/100).toString().length))
-            .attr('y', function(d, i){ return (0.5 + i)*cellHeight + fontSize/2} )
-            .text(d => Math.round(d[element]*100)/100 )
-            .style('font-size', fontSize + 'px');
-
-        if (columns.indexOf(element)==n_columns-1){
-            svg.selectAll()
-            .data(data)
-            .join('text')
-                .attr('x', (columns.indexOf(element)+1.1)*cellWidth)
-                .attr('y', function(d, i){ return (0.5 + i)*cellHeight + fontSize/2} )
-                .text(function(d, i){ return columns[i] })
-                .style('font-size', fontSize + 'px');
-            };
-
-    });
-}
-)};
