@@ -1,6 +1,6 @@
 function heatmap() {
     // Import csv data
-    var corr_data = d3.csv("../dataset/corr_total.csv", d3.autoType);
+    var corr_data = d3.csv("./dataset/corr_total.csv", d3.autoType);
 
     // columns analyzed
     var columns = ['baseline value', 'accelerations', 'fetal_movement',
@@ -74,7 +74,7 @@ function heatmap() {
 
 function scatterplot() {
     // Import csv data
-    var fetal_health = d3.csv("../dataset/fetal_health.csv", d3.autoType);
+    var fetal_health = d3.csv("./dataset/fetal_health.csv", d3.autoType);
 
     // Array with the name of the columns from the csv file
     var columns = ["baseline value", "accelerations",
