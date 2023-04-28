@@ -462,5 +462,46 @@ function scatterplot() {
     });
 
 
+    // histogram chart
+
+    var hist = {
+        "width" : 200,
+        "height": 200,
+        "bins" : 5,
+        "binWidth" : null, 
+        "binMargin" : 10,
+        "svg": null,
+        "xScale" : null,
+        "yScale" : null,
+    }
+
+    hist.binWidth = hist.width/hist.bins
+    hist.totalWidth = hist.width + (hist.bins-1)*hist.binMargin
+
+    hist.svg = d3.select('#hist')
+        .attr('width', hist.totalWidth)
+        .attr('height', hist.height)
+
+    hist.xScale = d3.scaleLinear()
+        .domain([0, hist.bins])
+        .range([0, hist.totalWidth])
+
+
+    var histogram = d3.histogram()
+        .value(function(d){ return d.baseline_value })
+        .domain(hist.xScale.domain())
+        .thresholds(hist.xScale.ticks(hist.bins))
+
+
+    hist.svg.selectAll("rect")
+        .data(data)
+        .enter()
+        .append('rect')
+            .attr('width', hist.binWidth)
+            .attr('height', function(d, i){ return d.baseline_value })
+            .attr('fill', 'red')
+            .attr('x', function(d, i){ return hist.xScale(i) })
+            .attr('y', function(d, i){ return hist.height - d.baseline_value })
+
     }); // closing data 'then' statement
 };
