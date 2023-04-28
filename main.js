@@ -330,7 +330,7 @@ function scatterplot() {
     .attr('class', 'counter')
     .attr('x', width*1.1)
     .attr('y', 30)
-    .text('Normal Fetus: 0');
+    .text('Normal Fetus: 1655');
 
     // Legend
     svg.append("rect")
@@ -345,7 +345,7 @@ function scatterplot() {
     .attr('class', 'counter')
     .attr('x', width*1.1)
     .attr('y', 60)
-    .text('Suspect Fetus: 0');
+    .text('Suspect Fetus: 295');
 
     // Legend
     svg.append("rect")
@@ -360,7 +360,7 @@ function scatterplot() {
     .attr('class', 'counter')
     .attr('x', width*1.1)
     .attr('y', 90)
-    .text('Pathogocial Fetus: 0');
+    .text('Pathogocial Fetus: 176');
 
     // Legend
     svg.append("rect")
