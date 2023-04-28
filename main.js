@@ -3,7 +3,7 @@ function heatmap() {
     var corr_data = d3.csv("./dataset/corr_total.csv", d3.autoType);
 
     // columns analyzed
-    var columns = ['baseline value', 'accelerations', 'fetal_movement',
+    var columns = ['baseline_value', 'accelerations', 'fetal_movement',
     'uterine_contractions', 'light_decelerations', 'severe_decelerations',
     'prolongued_decelerations', 'abnormal_short_term_variability',
     'mean_value_of_short_term_variability',
