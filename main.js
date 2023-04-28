@@ -460,5 +460,7 @@ function scatterplot() {
         counter4.text(`Total: 2126`);
         counter5.text(`Odds pathological: 0.10`);
     });
-    });
+
+
+    }); // closing data 'then' statement
 };
