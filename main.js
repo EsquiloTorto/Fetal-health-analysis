@@ -76,61 +76,6 @@ function heatmap() {
 }
 )};
 
-/*
-// TENTATIVA FALHA DE FAZER UMA FUNÇÃO ÚNICA DE UPDATE
-// Update the plot
-function updatePlot(variable) {
-
-    // Get the selected variable from the dropdown
-    var temp_dict = {}
-    var x_params = {Var: d3.select("#x-select").property("value"),
-                Axis: xAxis,
-                Scale: xScale.domain([d3.min(data, d => +d[xVar]),
-                 d3.max(data, d => +d[xVar])]).range([0, width])};
-
-    var y_params = {Var: d3.select("#y-select").property("value"),
-                Axis: yAxis,
-                Scale: yScale.domain([d3.min(data, d => +d[yVar]),
-                d3.max(data, d => +d[yVar])]).range([height, 0])};
-
-    var r_params = {Var: d3.select("#r-select").property("value"),
-                Axis: null,
-                Scale: rScale.domain([d3.min(data, d => +d[rVar]),
-                d3.max(data, d => +d[rVar])]).range([2, 10])};
-
-    // Update variable parameters
-    if (variable === 'x'){
-        temp_dict = x_params;   
-
-    } else if (variable === 'y'){
-        temp_dict = y_params;
-
-    } else if (variable === 'r'){
-        temp_dict = r_params;
-    };
-
-    // Update Scale
-    temp_dict.Scale.domain([d3.min(data, d => +d[temp_dict.Var]),
-    d3.max(data, d => +d[temp_dict.Var])]).range([0, width]);
-
-    if (temp_dict.Axis !== null) {
-        svg.select("."+ variable +".axis")
-        .transition()
-        .duration(1000)
-        .call(temp_dict.Axis);
-        // Update the circles with the new x values
-        circles.transition()
-        .duration(1000)
-        .attr('c' + variable, function (d) { return xScale(d[temp_dict.Var])});
-    }   else {
-        circles.transition()
-        .duration(1000)
-        .attr('r', function (d) { return rScale(d[temp_dict.Var])})
-        .attr('opacity', 0.5);
-    };
-};
-*/
-
 // Scatterplot function
 function scatterplot() {
     // Import csv data
