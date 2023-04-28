@@ -82,7 +82,7 @@ function scatterplot() {
     var fetal_health = d3.csv("./dataset/fetal_health.csv", d3.autoType);
 
     // Array with the name of the columns from the csv file
-    var columns = ["baseline value", "accelerations",
+    var columns = ["baseline_value", "accelerations",
     "fetal_movement", "uterine_contractions",
     "light_decelerations", "severe_decelerations",
     "prolongued_decelerations",
