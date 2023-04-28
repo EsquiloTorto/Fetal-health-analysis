@@ -383,7 +383,7 @@ function scatterplot() {
     .attr('class', 'counter')
     .attr('x', 0)
     .attr('y', height + 70)
-    .text('Odds pathological: 0');
+    .text('Odds pathological: 0.10');
 
     let brushedCircles_1 = [];
     let brushedCircles_2 = [];
@@ -454,11 +454,11 @@ function scatterplot() {
                 return 'blue';
             }
         });
-        counter1.text(`Normal Fetus: 0`);
-        counter2.text(`Suspect Fetus: 0`);
-        counter3.text(`Pathogocial Fetus: 0`);
+        counter1.text(`Normal Fetus: 1655`);
+        counter2.text(`Suspect Fetus: 295`);
+        counter3.text(`Pathogocial Fetus: 176`);
         counter4.text(`Total: 2126`);
-        counter5.text(`Odds pathological: 0`);
+        counter5.text(`Odds pathological: 0.10`);
     });
     });
 };
