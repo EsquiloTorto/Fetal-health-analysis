@@ -170,16 +170,28 @@ function scatterplot() {
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+    // Rounded corners background
+    svg.append("rect")
+    .attr("x", -margin.left)
+    .attr("y", -margin.top)
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .attr("rx", 10)
+    .attr("ry", 10)
+    .style("fill", "#A9A9A9");
+
     /// Load the data from the CSV file
     fetal_health.then(data => {
 
     // Scale the data to fit within the plot
     const xScale = d3.scaleLinear()
-      .domain([d3.min(data, d => +d.baseline_value), d3.max(data, d => +d.baseline_value)])
+      .domain([d3.min(data, d => +d.baseline_value) - (d3.max(data, d => +d.baseline_value))*0.02,
+                d3.max(data, d => +d.baseline_value)])
       .range([0, width]);
   
     const yScale = d3.scaleLinear()
-      .domain([d3.min(data, d => +d.baseline_value), d3.max(data, d => +d.baseline_value)])
+      .domain([d3.min(data, d => +d.baseline_value) - (d3.max(data, d => +d.baseline_value))*0.02,
+                d3.max(data, d => +d.baseline_value)])
       .range([height, 0]);
     
     const rScale = d3.scaleLinear()
@@ -208,16 +220,17 @@ function scatterplot() {
         .append('circle')
         .attr('cx', function (d) { return xScale(d.baseline_value)})
         .attr('cy', function (d) { return yScale(d.baseline_value)})
-        .attr('r', 2)
+        .attr('r', 3.5)
         .attr('fill', 'steelblue')
+        .attr('opacity', 0.35)
         // Change color between categories in fetal_health
         .attr('fill', function(d) {
             if (d.fetal_health == 1) {
-                return 'red';
+                return 'cyan';
             } else if (d.fetal_health == 2) {
-                return 'green';
+                return 'magenta';
             } else {
-                return 'blue';
+                return 'yellow';
             };
         });
 
@@ -242,7 +255,8 @@ function scatterplot() {
         xVar = d3.select("#x-select").property("value");
         
         // Update the x scale domain
-        xScale.domain([d3.min(data, d => +d[xVar]), d3.max(data, d => +d[xVar])]).range([0, width]);
+        xScale.domain([d3.min(data, d => +d[xVar]) - (d3.max(data, d => +d[xVar]))*0.02,
+                    d3.max(data, d => +d[xVar])]).range([0, width]);
 
         // Update the x axis
         svg.select(".x.axis")
@@ -268,7 +282,8 @@ function scatterplot() {
         yVar = d3.select("#y-select").property("value");
     
         // Update the y scale domain
-        yScale.domain([d3.min(data, d => +d[yVar]), d3.max(data, d => +d[yVar])]).range([height, 0]);
+        yScale.domain([d3.min(data, d => +d[yVar]) - (d3.max(data, d => +d[yVar]))*0.02,
+                        d3.max(data, d => +d[yVar])]).range([height, 0]);
     
         // Update the y axis
         svg.select(".y.axis")
@@ -321,9 +336,6 @@ function scatterplot() {
         .attr('class', 'brush')
         .style('opacity', .6)
         .call(brush);
-    
-    // Add counter for brushed circles
-    const brushCounter = d3.selectAll('#brush-counter');
 
     // Create the counter
     const counter1 = svg.append('text')
@@ -338,7 +350,7 @@ function scatterplot() {
     .attr('y', 20)
     .attr("width", 9)
     .attr("height", 9)
-    .style("fill", "red")
+    .style("fill", "cyan")
 
     // Create the counter
     const counter2 = svg.append('text')
@@ -353,7 +365,7 @@ function scatterplot() {
     .attr('y', 50)
     .attr("width", 9)
     .attr("height", 9)
-    .style("fill", "green")
+    .style("fill", "magenta")
 
     // Create the counter
     const counter3 = svg.append('text')
@@ -368,7 +380,7 @@ function scatterplot() {
     .attr('y', 80)
     .attr("width", 9)
     .attr("height", 9)
-    .style("fill", "blue")
+    .style("fill", "yellow")
 
 
     // Create the counter
@@ -394,29 +406,29 @@ function scatterplot() {
         if (event.selection) {
             // Get normal fetus
             brushedCircles_1 = circles.filter(function(d) {
-                if (d3.select(this).attr('fill') === 'red') {
+                if (d3.select(this).attr('fill') === 'cyan') {
                     const [x, y] = [d3.select(this).attr("cx"), d3.select(this).attr('cy')];
                     return x >= event.selection[0][0] && x <= event.selection[1][0]
                     && y >= event.selection[0][1] && y <= event.selection[1][1]
-                    && d3.select(this).attr('fill') === 'red';
+                    && d3.select(this).attr('fill') === 'cyan';
                 }
             })
             // Get suspect fetus
             brushedCircles_2 = circles.filter(function(d) {
-                if (d3.select(this).attr('fill') === 'green') {
+                if (d3.select(this).attr('fill') === 'magenta') {
                     const [x, y] = [d3.select(this).attr("cx"), d3.select(this).attr('cy')];
                     return x >= event.selection[0][0] && x <= event.selection[1][0]
                     && y >= event.selection[0][1] && y <= event.selection[1][1]
-                    && d3.select(this).attr('fill') === 'green';
+                    && d3.select(this).attr('fill') === 'magenta';
                 }
             })
             // Get pathogocial fetus
             brushedCircles_3 = circles.filter(function(d) {
-                if (d3.select(this).attr('fill') === 'blue') {
+                if (d3.select(this).attr('fill') === 'yellow') {
                     const [x, y] = [d3.select(this).attr("cx"), d3.select(this).attr('cy')];
                     return x >= event.selection[0][0] && x <= event.selection[1][0]
                     && y >= event.selection[0][1] && y <= event.selection[1][1]
-                    && d3.select(this).attr('fill') === 'blue';
+                    && d3.select(this).attr('fill') === 'yellow';
                 }
             })
             // Get total
@@ -426,11 +438,11 @@ function scatterplot() {
                     && y >= event.selection[0][1] && y <= event.selection[1][1];
             }).style("fill", function(d) {
                 if (d.fetal_health === 1) {
-                    return 'red';
+                    return 'cyan';
                 } else if (d.fetal_health === 2) {
-                    return 'green';
+                    return 'magenta';
                 } else {
-                    return 'blue';
+                    return 'yellow';
                 }
             })
             ;
@@ -442,16 +454,16 @@ function scatterplot() {
         counter5.text(`Odds pathological: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
 
     }     
-    // Reset brush with reset button
-    d3.select('#reset').on('click', function() {
+    // Reset brush with #reset-brush button
+    d3.select('#reset-brush').on('click', function() {
         svg.select('.brush').call(brush.move, null);
         circles.style('fill', function(d) {
             if (d.fetal_health === 1) {
-                return 'red';
+                return 'cyan';
             } else if (d.fetal_health === 2) {
-                return 'green';
+                return 'magenta';
             } else {
-                return 'blue';
+                return 'yellow';
             }
         });
         counter1.text(`Normal Fetus: 1655`);
