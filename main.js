@@ -319,11 +319,8 @@ function scatterplot() {
 
     svg.append('g')
         .attr('class', 'brush')
+        .style('opacity', .6)
         .call(brush);
-
-    // d3.select('#reset').on('click', () => {
-    //     d3.select('.brush').call(brush.move, null);
-    // });
     
     // Add counter for brushed circles
     const brushCounter = d3.selectAll('#brush-counter');
@@ -437,7 +434,7 @@ function scatterplot() {
                 }
             })
             ;
-        }      
+        }  
         counter1.text(`Normal Fetus: ${brushedCircles_1.size()}`);
         counter2.text(`Suspect Fetus: ${brushedCircles_2.size()}`);
         counter3.text(`Pathogocial Fetus: ${brushedCircles_3.size()}`);
@@ -445,6 +442,23 @@ function scatterplot() {
         counter5.text(`Odds pathological: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
 
     }     
-
+    // Reset brush with reset button
+    d3.select('#reset').on('click', function() {
+        svg.select('.brush').call(brush.move, null);
+        circles.style('fill', function(d) {
+            if (d.fetal_health === 1) {
+                return 'red';
+            } else if (d.fetal_health === 2) {
+                return 'green';
+            } else {
+                return 'blue';
+            }
+        });
+        counter1.text(`Normal Fetus: 0`);
+        counter2.text(`Suspect Fetus: 0`);
+        counter3.text(`Pathogocial Fetus: 0`);
+        counter4.text(`Total: 2126`);
+        counter5.text(`Odds pathological: 0`);
+    });
     });
 };
