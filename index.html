@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang = "pt-br">
 <head>
-    <title>main</title>
+    <title>Fetal Health Analysis</title>
     <meta charset="utf-8">
+    <!--Changing website viewport to cover all the device width-->
+    <meta name=”viewport” content=”width=device-width, initial-scale=1.0">
+    <!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <!--JS-->
     <script src="./main.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -11,27 +15,60 @@
 </head>
 
 <body>
-    <div id = "div1">
-        <p>Correlation Heatmap</p>
-        <svg id="vini"></svg>
+    <!--Title of the website centered-->
+    <center>
+    <h5 class=”display-2" >Fetal Health Analysis</h1>
+    </center>
+
+    <div class="container">
+        <div class="row">
+          <div class="col-5">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent facilisis enim eu tristique molestie. Curabitur varius eros vitae tellus eleifend, non lobortis mauris eleifend. Curabitur metus leo, auctor at euismod id, blandit sed metus. Ut in velit finibus, tristique nibh ut, hendrerit dolor. Aenean sodales ante eget varius porta. Etiam rutrum, ligula ut dapibus varius, eros libero tincidunt libero, vitae pellentesque augue enim id nulla. Fusce faucibus turpis risus. Praesent consequat eget nisi laoreet malesuada. Nunc ornare at lectus sed placerat.
+
+            Duis dictum rutrum mauris sed facilisis. Sed eu efficitur lorem, at euismod quam. Donec scelerisque, felis in faucibus semper, massa magna porta augue, id ultrices dolor nulla vitae turpis. In volutpat, felis laoreet vehicula gravida, leo orci lacinia erat, ut vulputate neque augue non dui. Phasellus in faucibus dui. Praesent ipsum lacus, condimentum non magna at, volutpat vestibulum felis. Etiam tempus, est vel posuere consequat, turpis sapien placerat elit, malesuada aliquet magna quam at felis. Nulla eleifend massa mauris, ut sollicitudin nunc pellentesque et. Vivamus hendrerit iaculis risus sed hendrerit. Integer varius, elit quis gravida bibendum, ex erat auctor ante, a placerat ipsum massa ut tellus. Etiam enim orci, semper vitae eros sit amet, finibus porta justo. Pellentesque aliquet faucibus finibus.
+          </div>
+          <div class="col-7" id = "div1">
+                <center>
+                    <h5 class=”display-2" >Correlation map</h5>
+                </center>
+                <svg id="vini"></svg>
+          </div>
+        </div>
+      </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class = "container">
+        <div class = "row" id = "div2">
+            <!-- Initialize a select button -->
+                <div class = "col-4">
+                    <p>Seleção para o valor de X</p>
+                    <select id="x-select"></select>
+                    <p>Seleção para o valor de Y</p>
+                    <select id="y-select"></select>
+                    <p>Seleção para o valor do raio dos círculos</p>
+                    <select id="r-select"></select>
+                    <p>Estatísticas:</p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent facilisis enim eu tristique molestie. Curabitur varius eros vitae tellus eleifend, non lobortis mauris eleifend. Curabitur metus leo, auctor at euismod id, blandit sed metus. Ut in velit finibus, tristique nibh ut, hendrerit dolor. Aenean sodales ante eget varius porta. Etiam rutrum, ligula ut dapibus varius, eros libero tincidunt libero, vitae pellentesque augue enim id nulla. Fusce faucibus turpis risus. Praesent consequat eget nisi laoreet malesuada. Nunc ornare at lectus sed placerat.
+                </div>
+                <div class="col-1">
+
+                </div>
+                <div class = "col-7">
+                    <center>
+                        <h5 class=”display-2" >Analysis Scatterplot</h5>
+                    </center>
+                    <svg id="chart"></svg>
+                    <button id = "reset">Reset não funcional... ainda</button>
+                </div>
+        </div>
     </div>
 
-    <div id = "div2">
-        <!-- Initialize a select button -->
-        <p>Seleção para o valor de X</p>
-        <select id="x-select"></select>
-        <p>Seleção para o valor de Y</p>
-        <select id="y-select"></select>
-        <p>Seleção para o valor de r</p>
-        <select id="r-select"></select>
-        <p></p>
-        <svg id="chart"></svg>
-    </div>
+    <br>
+    <br>
 
-
-    <div id = "div3">
-        <svg id="brush"></svg>
-    </div>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             // Run script1.js for div1
@@ -45,13 +82,8 @@
                 // Script for div2
                 scatterplot();
             }
-
-            // Run script2.js for div3
-            if (document.getElementById("div3")) {
-                // Script for div2
-                brushing();
           }
-        });
+        );
       </script>
 </body>
 

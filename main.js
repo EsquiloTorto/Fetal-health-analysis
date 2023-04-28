@@ -13,17 +13,18 @@ function heatmap() {
     'histogram_number_of_zeroes', 'histogram_mode', 'histogram_mean',
     'histogram_median', 'histogram_variance', 'histogram_tendency',
     'fetal_health'];
+    
     var n_columns = columns.length;
 
     corr_data.then( data => {
         // base parameters
         const width = 600;
-        const height = 600;
+        const height = 400;
         const cellWidth = width/n_columns;
         const cellHeight = height/n_columns;
         const fontSize = 10;
-        const paddingRight = 250;
-        const paddingBottom = 100;
+        const paddingRight = 30;
+        const paddingBottom = 150;
         
         // svg container creation
         const svg = d3.select('#vini')
@@ -58,20 +59,79 @@ function heatmap() {
             .text(d => Math.round(d[element]*100)/100 )
             .style('font-size', fontSize + 'px');
 
-        if (columns.indexOf(element)==n_columns-1){
+        if (columns.indexOf(element)==n_columns - 1){
             svg.selectAll()
             .data(data)
             .join('text')
-                .attr('x', (columns.indexOf(element)+1.1)*cellWidth)
-                .attr('y', function(d, i){ return (0.5 + i)*cellHeight + fontSize/2} )
+                .attr('x', function(d, i){ return (i)*cellWidth + fontSize/2})
+                .attr('y', (columns.indexOf(element)+2)*cellHeight)
                 .text(function(d, i){ return columns[i] })
-                .style('font-size', fontSize + 'px');
+                .style('font-size', fontSize + 'px')
+                // rotate each text in 45 degrees
+                .attr('transform', function(d, i){ return 'rotate(45 ' + ((0.5 + i)*cellWidth + fontSize/2) + ',' + ((columns.indexOf(element)+1.8)*cellHeight) + ')' })
+                ;
             };
 
     });
 }
-)}
+)};
 
+/*
+// TENTATIVA FALHA DE FAZER UMA FUNÇÃO ÚNICA DE UPDATE
+// Update the plot
+function updatePlot(variable) {
+
+    // Get the selected variable from the dropdown
+    var temp_dict = {}
+    var x_params = {Var: d3.select("#x-select").property("value"),
+                Axis: xAxis,
+                Scale: xScale.domain([d3.min(data, d => +d[xVar]),
+                 d3.max(data, d => +d[xVar])]).range([0, width])};
+
+    var y_params = {Var: d3.select("#y-select").property("value"),
+                Axis: yAxis,
+                Scale: yScale.domain([d3.min(data, d => +d[yVar]),
+                d3.max(data, d => +d[yVar])]).range([height, 0])};
+
+    var r_params = {Var: d3.select("#r-select").property("value"),
+                Axis: null,
+                Scale: rScale.domain([d3.min(data, d => +d[rVar]),
+                d3.max(data, d => +d[rVar])]).range([2, 10])};
+
+    // Update variable parameters
+    if (variable === 'x'){
+        temp_dict = x_params;   
+
+    } else if (variable === 'y'){
+        temp_dict = y_params;
+
+    } else if (variable === 'r'){
+        temp_dict = r_params;
+    };
+
+    // Update Scale
+    temp_dict.Scale.domain([d3.min(data, d => +d[temp_dict.Var]),
+    d3.max(data, d => +d[temp_dict.Var])]).range([0, width]);
+
+    if (temp_dict.Axis !== null) {
+        svg.select("."+ variable +".axis")
+        .transition()
+        .duration(1000)
+        .call(temp_dict.Axis);
+        // Update the circles with the new x values
+        circles.transition()
+        .duration(1000)
+        .attr('c' + variable, function (d) { return xScale(d[temp_dict.Var])});
+    }   else {
+        circles.transition()
+        .duration(1000)
+        .attr('r', function (d) { return rScale(d[temp_dict.Var])})
+        .attr('opacity', 0.5);
+    };
+};
+*/
+
+// Scatterplot function
 function scatterplot() {
     // Import csv data
     var fetal_health = d3.csv("./dataset/fetal_health.csv", d3.autoType);
@@ -91,7 +151,7 @@ function scatterplot() {
     "histogram_variance", "histogram_tendency", "fetal_health"];
 
     // add the options to the button
-    d3.select("#x-select")
+    d3.selectAll("select")
       .selectAll('myOptions')
      	.data(columns)
       .enter()
@@ -99,27 +159,9 @@ function scatterplot() {
       .text(function (d) { return d; }) // text showed in the menu
       .attr("value", function (d) { return d; }) // corresponding value returned by the button
 
-    // add the options to the button
-    d3.select("#y-select")
-      .selectAll('myOptions')
-     	.data(columns)
-      .enter()
-    	.append('option')
-      .text(function (d) { return d; }) // text showed in the menu
-      .attr("value", function (d) { return d; }) // corresponding value returned by the button
-
-    // add the options to the button
-    d3.select("#r-select")
-      .selectAll('myOptions')
-     	.data(columns)
-      .enter()
-    	.append('option')
-      .text(function (d) { return d; }) // text showed in the menu
-      .attr("value", function (d) { return d; }) // corresponding value returned by the button
-
-    const margin = { top: 20, right: 20, bottom: 80, left: 60 };
-    const width = 400 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
+    const margin = { top: 20, right: 200, bottom: 80, left: 60 };
+    const width = 400;
+    const height = 400;
 
     // Create the SVG element
     const svg = d3.select('#chart')
@@ -147,6 +189,7 @@ function scatterplot() {
     // Create the x-axis and y-axis
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
+    // console.log(typeof )
     
     // Add the x-axis and y-axis to the plot
     svg.append('g')
@@ -157,7 +200,6 @@ function scatterplot() {
     svg.append('g')
       .attr('class', 'y axis')
       .call(yAxis);
-
   
     // Create the circles
     const circles = svg.selectAll('circle')
@@ -179,32 +221,48 @@ function scatterplot() {
             };
         });
 
+    svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width)
+    .attr("y", height*1.1)
+    .text("baseline_value");
 
-    // Update the plot
+    svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", -60)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .text("baseline_value");
+
+        // Update the plot
     function updatePlotX() {
         // Get the selected x variable from the dropdown
         xVar = d3.select("#x-select").property("value");
         
         // Update the x scale domain
         xScale.domain([d3.min(data, d => +d[xVar]), d3.max(data, d => +d[xVar])]).range([0, width]);
-    
+
         // Update the x axis
         svg.select(".x.axis")
         .transition()
         .duration(1000)
         .call(xAxis);
-    
+
         // Update the circles with the new x values
         circles.transition()
         .duration(1000)
         .attr('cx', function (d) { return xScale(d[xVar])});
-    
-    }
-    
-    // Listen for changes in the dropdown
-    d3.select("#x-select").on("change", updatePlotX);
 
-    // Update the plot y
+        // Update the x axis label
+        svg.select(".x.label")
+        .transition()
+        .duration(1000)
+        .text(xVar);
+
+    };
+
     function updatePlotY() {
         // Get the selected y variable from the dropdown
         yVar = d3.select("#y-select").property("value");
@@ -222,37 +280,50 @@ function scatterplot() {
         circles.transition()
         .duration(1000)
         .attr('cy', function (d) { return yScale(d[yVar])});
-        
-    }
 
-    // Listen for changes in the dropdown
-    d3.select("#y-select").on("change", updatePlotY);
+        // Update the y axis label
+        svg.select(".y.label")
+        .transition()
+        .duration(1000)
+        .text(yVar);
+        
+    };
 
     // Update the plot r
     function updatePlotR() {
         // Get the selected r variable from the dropdown
         rVar = d3.select("#r-select").property("value");
-    
+
         // Update the r scale domain
         rScale.domain([d3.min(data, d => +d[rVar]), d3.max(data, d => +d[rVar])]).range([2, 10]);
-    
+
         // Update the circles with the new y values
         circles.transition()
         .duration(1000)
         .attr('r', function (d) { return rScale(d[rVar])})
         .attr('opacity', 0.5);
-    
-    }
+
+    };
+
+    // Listen for changes in the dropdown
+    d3.select("#x-select").on("change", updatePlotX);
+
+    d3.select("#y-select").on("change", updatePlotY);
+
     d3.select("#r-select").on("change", updatePlotR);
 
-        // Add brush functionality
-        const brush = d3.brush()
-        .extent([[0, 0], [width, height]])
-        .on('brush', updateBrush);
+    // Add brush functionality
+    const brush = d3.brush()
+    .extent([[0, 0], [width, height]])
+    .on('brush', updateBrush);
 
     svg.append('g')
         .attr('class', 'brush')
         .call(brush);
+
+    // d3.select('#reset').on('click', () => {
+    //     d3.select('.brush').call(brush.move, null);
+    // });
     
     // Add counter for brushed circles
     const brushCounter = d3.selectAll('#brush-counter');
@@ -260,14 +331,14 @@ function scatterplot() {
     // Create the counter
     const counter1 = svg.append('text')
     .attr('class', 'counter')
-    .attr('x', 0)
-    .attr('y', height + 30)
+    .attr('x', width*1.1)
+    .attr('y', 30)
     .text('Normal Fetus: 0');
 
     // Legend
     svg.append("rect")
-    .attr("x", -15)
-    .attr("y", height + 20)
+    .attr('x', width*1.07)
+    .attr('y', 20)
     .attr("width", 9)
     .attr("height", 9)
     .style("fill", "red")
@@ -275,14 +346,14 @@ function scatterplot() {
     // Create the counter
     const counter2 = svg.append('text')
     .attr('class', 'counter')
-    .attr('x', 180)
-    .attr('y', height + 30)
+    .attr('x', width*1.1)
+    .attr('y', 60)
     .text('Suspect Fetus: 0');
 
     // Legend
     svg.append("rect")
-    .attr("x", 165)
-    .attr("y", height + 20)
+    .attr('x', width*1.07)
+    .attr('y', 50)
     .attr("width", 9)
     .attr("height", 9)
     .style("fill", "green")
@@ -290,14 +361,14 @@ function scatterplot() {
     // Create the counter
     const counter3 = svg.append('text')
     .attr('class', 'counter')
-    .attr('x', 0)
-    .attr('y', height + 50)
+    .attr('x', width*1.1)
+    .attr('y', 90)
     .text('Pathogocial Fetus: 0');
 
     // Legend
     svg.append("rect")
-    .attr("x", -15)
-    .attr("y", height + 40)
+    .attr('x', width*1.07)
+    .attr('y', 80)
     .attr("width", 9)
     .attr("height", 9)
     .style("fill", "blue")
@@ -306,9 +377,9 @@ function scatterplot() {
     // Create the counter
     const counter4 = svg.append('text')
     .attr('class', 'counter')
-    .attr('x', 180)
-    .attr('y', height + 50)
-    .text('Total: 0');
+    .attr('x', width*1.1)
+    .attr('y', 120)
+    .text('Total: 2126');
 
     // Create the counter
     const counter5 = svg.append('text')
@@ -366,15 +437,14 @@ function scatterplot() {
                 }
             })
             ;
-            }         
-            counter1.text(`Normal Fetus: ${brushedCircles_1.size()}`);
-            counter2.text(`Suspect Fetus: ${brushedCircles_2.size()}`);
-            counter3.text(`Pathogocial Fetus: ${brushedCircles_3.size()}`);
-            counter4.text(`Total: ${brushedCircles_4.size()}`);
-            counter5.text(`Odds pathological: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
+        }      
+        counter1.text(`Normal Fetus: ${brushedCircles_1.size()}`);
+        counter2.text(`Suspect Fetus: ${brushedCircles_2.size()}`);
+        counter3.text(`Pathogocial Fetus: ${brushedCircles_3.size()}`);
+        counter4.text(`Total: ${brushedCircles_4.size()}`);
+        counter5.text(`Odds pathological: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
 
-        }     
-    
+    }     
+
     });
-
 };
