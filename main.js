@@ -1,3 +1,7 @@
+function createRLabels(svg, attribute){
+    
+}
+
 function heatmap() {
     // Import csv data
     var corr_data = d3.csv("./dataset/corr_total.csv", d3.autoType);
@@ -141,7 +145,7 @@ function scatterplot() {
     
     const rScale = d3.scaleLinear()
       .domain([d3.min(data, d => +d.baseline_value), d3.max(data, d => +d.baseline_value)])
-      .range([1, 10]);
+      .range([2, 10]);
   
     // Create the x-axis and y-axis
     const xAxis = d3.axisBottom(xScale);
@@ -193,6 +197,56 @@ function scatterplot() {
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
     .text("baseline_value");
+
+
+    // Creating radius label
+    svg.append('text')
+    .attr('class', 'r label_title')
+    .attr('x', width*1.05)
+    .attr('y', 170)
+    .text('Baseline Value');
+
+    svg.append("circle")
+    .attr("class", "r label_circle1")
+    .attr("r", rScale(d3.max(data, d=> d["baseline_value"])))
+    .attr("fill", "#EBEBEB")
+    .attr("cx", width*1.1)
+    .attr("cy", 200)
+    .attr("stroke", "black")
+
+    svg.append('text')
+    .attr('class', 'r label1')
+    .attr('x', width*1.15)
+    .attr('y', 205)
+    .text(d3.max(data, d => d['baseline_value']));
+
+    svg.append("circle")
+    .attr("class", "r label_circle2")
+    .attr("r", rScale((d3.max(data, d=> d["baseline_value"])+d3.min(data, d=> d["baseline_value"]))/2))
+    .attr("fill", "#EBEBEB")
+    .attr("cx", width*1.1)
+    .attr("cy", 232)
+    .attr("stroke", "black")
+
+    svg.append('text')
+    .attr('class', 'r label2')
+    .attr('x', width*1.15)
+    .attr('y', 237)
+    .text((d3.max(data, d=> d["baseline_value"])+d3.min(data, d=> d["baseline_value"]))/2);
+
+    svg.append("circle")
+    .attr("class", "r label_circle3")
+    .attr("r", rScale(d3.min(data, d=> d["baseline_value"])))
+    .attr("fill", "#EBEBEB")
+    .attr("cx", width*1.1)
+    .attr("cy", 259)
+    .attr("stroke", "black")
+    
+    svg.append('text')
+    .attr('class', 'r label3')
+    .attr('x', width*1.15)
+    .attr('y', 263)
+    .text(d3.min(data, d => d['baseline_value']));
 
         // Update the plot
     function updatePlotX() {
@@ -262,6 +316,27 @@ function scatterplot() {
         .duration(1000)
         .attr('r', function (d) { return rScale(d[rVar])})
         .attr('opacity', 0.5);
+
+        // Update the y axis label
+        svg.select(".r.label_title")
+        .transition()
+        .duration(1000)
+        .text(rVar);
+
+        svg.select(".r.label1")
+        .transition()
+        .duration(1000)
+        .text(d3.max(data, d => d[rVar]));
+
+        svg.select(".r.label2")
+        .transition()
+        .duration(1000)
+        .text((d3.max(data, d => d[rVar])+d3.min(data, d => d[rVar]))/2);
+
+        svg.select(".r.label3")
+        .transition()
+        .duration(1000)
+        .text(d3.min(data, d => d[rVar]));
 
     };
 
