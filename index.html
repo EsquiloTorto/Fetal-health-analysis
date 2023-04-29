@@ -46,19 +46,30 @@
                 funciona enviando pulsos de ultrassom e lendo sua resposta, assim iluminando a taxa 
                 cardíaca fetal (TCF), movimentos fetais, contrações uterinas e mais.
             </p>
-            <h5 class=”display-2" >Objetivos - FAZER</h5>
+            <h5 class=”display-2" >Objetivos</h5>
             <p>
-                Falar aqui que a ideia é dar muita informação para os medicos conseguirem ver 
-                a relação mais direta entre as variaveis e tambem falar que, vistando o publico 
-                convencional, vamos dar uma explicação mais simples e direta do que é cada variavel
-                e como tentar achar a relação .
+                Nosso objetivo é dar maior poder aos médicos para identificação da saúde do feto, ajudando, portanto, 
+                na tomada de decisões, buscando uma melhora na saúde do feto. Tomando como base para essa análise, o 
+                conjunto de dados, que logo sera comentado, que contem 2126 registros, com diversas variáveis relevantes 
+                e a classificação da saúde do feto. É uma alternativa a modelos de machine learning, onde colocaria 
+                todas as variáveis e resultaria a saúde do feto no estado atual, passando por uma caixa preta, nos 
+                queremos evitar essa caixa preta, deitando a informação disposta de forma clara para um especialista, 
+                o que é muito importante já que estamos lidando com algo muito delicado, vidas. 
             </p>
-            <h5 class=”display-2" >Dados - FAZER</h5>
             <p>
-                Alem de citar o que são dos dados, como esta abaixo como no site, citar o site, 
-                fala mais sobre os dados e deixar claro que cada variavel sera explicada no final
-                da pagina para que o usuario que não é medico possa entender melhor o que cada 
-                uma significa e assim entender melhor a viz.
+                Buscando a compreensão de um público maior, também vamos fazer uma explicação mais detalhada, que um 
+                profissional não precisaria, mas dessa forma a visualização fica mais acessível, não para a real 
+                predição de saúde de um feto, mas sim para possíveis insights. Vamos inicialmente apresentar um 
+                Heatmap das correlações entre as variáveis, para mostrar melhor a relação entre as variáveis e ao 
+                final da página temos uma explicação de cada uma das variáveis que utilizamos.
+            </p>
+            <h5 class=”display-2" >Dados</h5>
+            <p>
+                Os dados utilizados foram retirados do site <a href="https://www.kaggle.com/andrewmvd/fetal-health-classification">Kaggle</a>, 
+                que é uma plataforma de ciência de dados que permite que os usuários encontrem e publiquem conjuntos de dados. Vale 
+                relembrar que todas as há a explicação de todas as variáveis no final da página. A base consiste em 21 variáveis 
+                quantitativas e uma qualitativa (a saúde do feto). Vale relembrar que todas as há a explicação de todas as variáveis 
+                no final da página.
             </p>
             <p>
                 Este conjunto de dados contém 2126 registros de recursos extraídos 
@@ -120,22 +131,32 @@
                     </center>
                 </div>
         </div>
+        <br><br>
     </div>
+      <!-- criar uma divisao para explicar cada variave do dataset -->
+      <div class="container">
+        <div class="row">
+        <div class="col-12">
+            <h5 class=”display-2" >Variáveis:</h5>
+            <p>
+                <b>'baseline value'</b>- FHR baseline (beats per minute)
+            </p>
 
-    <br>
-    <br>
+        </div>
+        </div>
+
+
 
     <div class="container">
         <svg id="hist"></svg>
     </div>
-    <br>
-    <br>
+
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             // Run script1.js for div1
             if (document.getElementById("div1")) {
                 // Script for div1
-                heatmap();
+                heatmap();  
             }
 
             // Run script2.js for div2
@@ -146,6 +167,9 @@
           }
         );
       </script>
+
+
+
 </body>
 
 </html>
