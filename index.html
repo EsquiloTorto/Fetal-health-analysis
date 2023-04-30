@@ -123,16 +123,9 @@
 
     <div class = "container">
         <div class = "row" id = "div2">
-            <h2 class=”display-2" >Área para análise</h5>
             <!-- Initialize a select button -->
-                <div class = "col-4">
-                    <p>
-                        Aqui você tem total controle para fazer explorações de forma geral, relacionando a saúde do feto com até mais três variáveis a sua 
-                        escolha, uma sera representada no eixo x, outra no eixo y e a última no tamanho dos pontos. Além disso, é possível selecionar uma 
-                        área de interesse apenas clicando e arrastando no gráfico, ao fazer essa área apenas os pontos dentro dela são ressaltados e, além 
-                        disso, são disponíveis estatísticas considerando apenas os pontos da área selecionada, essa região pode ser redimensionada e 
-                        arrastada por toda a visualização.                   
-                    </p>
+            <div class = "col-4">
+                    <h2 class=”display-2" >Área para análise</h5>
                     <p>Seleção para o valor de X</p>
                     <select id="x-select"></select>
                     <p>Seleção para o valor de Y</p>
@@ -147,13 +140,20 @@
                 </div>
                 <div class = "col-7">
                     <center>
-                        <h5 class=”display-2" >Analysis Scatterplot</h5>
+                        <h2 class=”display-2" >Scatterplot Interativo</h5>
                     </center>
                     <svg id="chart"></svg>
                     <center>
                         <button id = "reset-brush">Reset brushing</button>
                     </center>
                 </div>
+                <p id="analysis-text">
+                    Aqui você tem total controle para fazer explorações de forma geral, relacionando a saúde do feto com até mais três variáveis a sua 
+                    escolha, uma sera representada no eixo x, outra no eixo y e a última no tamanho dos pontos. Além disso, é possível selecionar uma 
+                    área de interesse apenas clicando e arrastando no gráfico, ao fazer essa área apenas os pontos dentro dela são ressaltados e, além 
+                    disso, são disponíveis estatísticas considerando apenas os pontos da área selecionada, essa região pode ser redimensionada e 
+                    arrastada por toda a visualização.                   
+                </p>
         </div>
         <br><br>
     </div>
