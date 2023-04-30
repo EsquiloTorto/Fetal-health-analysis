@@ -37,7 +37,7 @@
             </p>
             <p>
                 Juntamente com a ideia de mortalidade infantil, está a mortalidade materna, que 
-                resulta em 295.000 mortes durante e após a gravidez e o parto (a partir de 2017).
+                resulta em 295.000 mortes pré e pós-parto (a partir de 2017).
                 A maioria dessas mortes (94%) ocorreu em áreas com recursos limitados e a maioria 
                 poderia ter sido evitada.
             </p>
@@ -46,7 +46,20 @@
                 acessível em termos de custos para avaliar a saúde fetal, permitindo que profissionais 
                 de saúde ajam para prevenir a mortalidade infantil e materna. O equipamento em si 
                 funciona enviando pulsos de ultrassom e lendo sua resposta, assim iluminando a taxa 
-                cardíaca fetal (TCF), movimentos fetais, contrações uterinas e mais.
+                cardíaca fetal (TCF), movimentos fetais, contrações uterinas e mais. Esse exame é 
+                importante para avaliar a saúde do feto, pois permite detectar a presença de 
+                possíveis problemas, como falta de oxigênio ou sofrimento fetal.
+            </p>
+            <p>
+                Durante o exame, dois sensores são colocados na barriga da mãe: um para monitorar a 
+                frequência cardíaca fetal e outro para registrar as contrações uterinas. O exame é 
+                indolor e não apresenta riscos para a mãe ou para o feto.
+            </p>
+            <p>
+                Os resultados do cardiotocograma são interpretados por um médico obstetra, que poderá
+                 identificar se a frequência cardíaca fetal está dentro dos valores normais e se há
+                  alguma anormalidade nas contrações uterinas. Caso seja detectada alguma irregularidade,
+                   o médico poderá indicar um tratamento ou procedimento para proteger a saúde do feto e da mãe.
             </p>
             <h3 class=”display-2" >Objetivos</h5>
             <p>
@@ -68,7 +81,7 @@
             <h3 class=”display-2" >Dados</h5>
             <p>
                 Os dados utilizados foram retirados do site <a href="https://www.kaggle.com/andrewmvd/fetal-health-classification">Kaggle</a>, 
-                que é uma plataforma de ciência de dados que permite que os usuários encontrem e publiquem conjuntos de dados. A base consiste 
+                uma plataforma de ciência de dados, ela permite que usuários encontrem e publiquem conjuntos de dados. A base consiste 
                 em 21 variáveis quantitativas e uma qualitativa (a saúde do feto). Vale relembrar que todas as há a explicação de todas as variáveis 
                 no final da página.
             </p>
@@ -149,7 +162,47 @@
         <div class="col-12">
             <h5 class=”display-2" >Variáveis:</h5>
             <p>
-                <b>'baseline value'</b>- FHR baseline (beats per minute)
+                <b>'baseline_value'</b>- Frequência cardíaca fetal basal <br>
+                <b>'accelerations'</b> - Número de acelerações (cardiacas do feto) por segundo<br>
+                <b>'fetal_movement'</b> - Número de movimentos fetais por segundo<br>
+                <b>'uterine_contractions'</b> - Número de contrações uterinas por segundo<br>
+                <b>'light_decelerations'</b> - Número de desacelerações (cardiacas do feto) leves por segundo<br>
+                <b>'severe_decelerations'</b> - Número de desacelerações (cardiacas do feto) severas  por segundo<br>
+                <b>'prolongued_decelerations'</b> - Número de desacelerações (cardiacas do feto) prolongadas por segundo<br>
+
+                <b>'abnormal_short_term_variability'</b> - Porcentagem de tempo com variabilidade anormal de curto prazo. É uma 
+                medida que indica a quantidade de tempo em que a frequência cardíaca fetal apresentou uma variação anormal em 
+                relação ao padrão esperado durante um período de tempo específico (curto prazo).<br>
+
+                <b>'mean_value_of_short_term_variability'</b> - Valor médio da variabilidade de curto prazo. É uma medida 
+                que indica a média das flutuações de frequência cardíaca fetal que ocorrem de uma batida para outra durante 
+                um determinado período de tempo.<br>
+
+                <b>'percentage_of_time_with_abnormal_long_term_variability'</b> - Porcentagem de tempo com variabilidade anormal de longo prazo. É 
+                uma medida que indica a quantidade de tempo em que a frequência cardíaca fetal apresentou uma variação anormal em relação ao padrão 
+                esperado durante um período de tempo específico (longo prazo).<br>
+
+                <b>'mean_value_of_long_term_variability'</b> - Valor médio da variabilidade de longo prazo. É uma medida que representa a média das 
+                flutuações da frequência cardíaca fetal que ocorrem em períodos mais longos, geralmente com duração de alguns minutos ou mais.<br>
+
+                <b>'histogram_width'</b> - Largura do histograma da FCF. É uma medida que indica a amplitude de variação da frequência cardíaca 
+                fetal durante um exame CTG.<br>
+
+                <b>'histogram_min'</b> - Mínimo (baixa frequência) do histograma da FCF.Representa a menor frequência cardíaca fetal registrada 
+                durante o período de monitoramento (bpm).<br>
+                <b>'histogram_max'</b> - Máximo (alta frequência) do histograma de FCF. Representa a maior frequência cardíaca fetal registrada 
+                durante o período de monitoramento (bpm). <br>
+                <b>'histogram_number_of_peaks'</b> - Número de picos do histograma. <br>
+                <b>'histogram_number_of_zeroes'</b> - Número de zeros do histograma. O número de zeros do histograma em um exame CTG é a contagem 
+                de episódios em que não há variação da frequência cardíaca fetal durante um período de tempo.  <br>
+        
+                
+                <b>'histogram_mode'</b> - Moda do histogram<br>
+                <b>'histogram_mean'</b> - Media do histogram<br>
+                <b>'histogram_median'</b> - Mediana do histograma<br>
+                <b>'histogram_variance'</b> - Variancia do Histograma<br>
+                <b>'histogram_tendency'</b> - Tendência do histograma<br>
+                
             </p>
 
         </div>
