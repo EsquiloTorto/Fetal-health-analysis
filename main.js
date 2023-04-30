@@ -428,19 +428,19 @@ function scatterplot() {
         .attr("class", "stats1")
         .attr('x', 0)
         .attr('y', 20)    
-        .text("Pathological Fetus per Normal Fetus: 0.1")
+        .text("Normal Fetus overall: 0.1")
     
     var stats2 = stats.append("text")
         .attr("class", "stats2")
         .attr('x', 0)
         .attr('y', 40)    
-        .text("Mean: 0.1")
+        .text("Pathological Fetus overall: 0.08")
     
     var stats3 = stats.append("text")
         .attr("class", "stats3")
         .attr('x', 0)
         .attr('y', 60)    
-        .text("Median: 0.1")
+        .text("Pathological Fetus per non Pathological Fetus: 0.09")
 
     let brushedCircles_1 = [];
     let brushedCircles_2 = [];
@@ -498,8 +498,9 @@ function scatterplot() {
         counter4.text(`Total: ${brushedCircles_4.size()}`);
 
         
-        stats1.text(`Pathological Fetus per Normal Fetus: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
-        stats2.text(`Mean: ${d3.mean(counter4, function(d){ return d[0] })}`)
+        stats1.text(`Normal Fetus overall: ${Math.round(brushedCircles_1.size()/brushedCircles_4.size()*100)/100}`)
+        stats2.text(`Pathological Fetus overall: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
+        stats3.text(`Pathological Fetus per non Pathological Fetus: ${Math.round(brushedCircles_3.size()/(brushedCircles_1.size()+brushedCircles_2.size())*100)/100}`)
 
     }     
     // Reset brush with #reset-brush button
