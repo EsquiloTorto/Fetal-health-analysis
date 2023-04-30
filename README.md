@@ -15,5 +15,5 @@ Após a apresentação do MVP, nos juntamos para tentar arrumar todas as crític
 Estimamos ter investidos cerca de 32 horas, por pessoa, para esse trabalho, considerando uma estimativa conservadora. A estimativa foi feita considerando que gastamos certa de 6 horas durante 2 dias para a entrega do MVP e 5 horas durante 4 dias para implementar todos os pontos comentados pelos nossos colegas de classe. 
 
 ## Dados
-Extraímos esse conjunto de dados do kaggle, é possível clicar ![aqui](https://www.kaggle.com/datasets/andrewmvd/fetal-health-classification) para ver a base. 
+Extraímos esse conjunto de dados do kaggle, https://www.kaggle.com/datasets/andrewmvd/fetal-health-classification. 
 
