@@ -11,13 +11,15 @@
     <script src="./main.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+    <!--CSS-->
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
     <!--Title of the website centered-->
     <center>
-    <h5 class=”display-2" >Análise de saúde fetal</h1>
+    <h1 class=”display-2" >Análise de saúde fetal</h1>
     </center>
 
     <!--div para explicação do trabalho-->
@@ -25,7 +27,7 @@
         <div class="row">
           <div class="col-12">
             <!-- titulo para esse resumo/contexto do tema que fiz -->
-            <h5 class=”display-2" >Contexto</h5>
+            <h2 class=”display-2" >Contexto</h5>
             <p>
                 A redução da mortalidade infantil é refletida em vários dos Objetivos de Desenvolvimento
                 Sustentável e é um indicador-chave do progresso humano.
@@ -46,7 +48,7 @@
                 funciona enviando pulsos de ultrassom e lendo sua resposta, assim iluminando a taxa 
                 cardíaca fetal (TCF), movimentos fetais, contrações uterinas e mais.
             </p>
-            <h5 class=”display-2" >Objetivos</h5>
+            <h3 class=”display-2" >Objetivos</h5>
             <p>
                 Nosso objetivo é dar maior poder aos médicos para identificação da saúde do feto, ajudando, portanto, 
                 na tomada de decisões, buscando uma melhora na saúde do feto. Tomando como base para essa análise, o 
@@ -63,7 +65,7 @@
                 Heatmap das correlações entre as variáveis, para mostrar melhor a relação entre as variáveis e ao 
                 final da página temos uma explicação de cada uma das variáveis que utilizamos.
             </p>
-            <h5 class=”display-2" >Dados</h5>
+            <h3 class=”display-2" >Dados</h5>
             <p>
                 Os dados utilizados foram retirados do site <a href="https://www.kaggle.com/andrewmvd/fetal-health-classification">Kaggle</a>, 
                 que é uma plataforma de ciência de dados que permite que os usuários encontrem e publiquem conjuntos de dados. A base consiste 
@@ -85,27 +87,23 @@
     <div class="container">
         <div class="row">
           <div class="col-5">
-            <h5 class=”display-2" >Correlação entre as variáveis</h5>
+            <h3 class=”display-2" >Correlação entre as variáveis</h5>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent facilisis enim eu tristique molestie. Curabitur varius eros vitae tellus eleifend, non lobortis mauris eleifend. Curabitur metus leo, auctor at euismod id, blandit sed metus. Ut in velit finibus, tristique nibh ut, hendrerit dolor. Aenean sodales ante eget varius porta. Etiam rutrum, ligula ut dapibus varius, eros libero tincidunt libero, vitae pellentesque augue enim id nulla. Fusce faucibus turpis risus. Praesent consequat eget nisi laoreet malesuada. Nunc ornare at lectus sed placerat.
 
             Duis dictum rutrum mauris sed facilisis. Sed eu efficitur lorem, at euismod quam. Donec scelerisque, felis in faucibus semper, massa magna porta augue, id ultrices dolor nulla vitae turpis. In volutpat, felis laoreet vehicula gravida, leo orci lacinia erat, ut vulputate neque augue non dui. Phasellus in faucibus dui. Praesent ipsum lacus, condimentum non magna at, volutpat vestibulum felis. Etiam tempus, est vel posuere consequat, turpis sapien placerat elit, malesuada aliquet magna quam at felis. Nulla eleifend massa mauris, ut sollicitudin nunc pellentesque et. Vivamus hendrerit iaculis risus sed hendrerit. Integer varius, elit quis gravida bibendum, ex erat auctor ante, a placerat ipsum massa ut tellus. Etiam enim orci, semper vitae eros sit amet, finibus porta justo. Pellentesque aliquet faucibus finibus.
           </div>
           <div class="col-7" id = "div1">
                 <center>
-                    <h5 class=”display-2" >Correlation map</h5>
+                    <h3 class=”display-2" >Correlation map</h5>
                 </center>
                 <svg id="vini"></svg>
           </div>
         </div>
       </div>
 
-    <br>
-    <br>
-    <br>
-
     <div class = "container">
         <div class = "row" id = "div2">
-            <h5 class=”display-2" >Área para análise</h5>
+            <h2 class=”display-2" >Área para análise</h5>
             <!-- Initialize a select button -->
                 <div class = "col-4">
                     <p>Seleção para o valor de X</p>
@@ -114,7 +112,7 @@
                     <select id="y-select"></select>
                     <p>Seleção para o valor do raio dos círculos</p>
                     <select id="r-select"></select>
-                    <h5>Estatísticas dos dados selecionados:</h5>
+                    <h3>Estatísticas dos dados selecionados:</h5>
                     <svg class="stats"></svg>
                 </div>
                 <div class="col-1">

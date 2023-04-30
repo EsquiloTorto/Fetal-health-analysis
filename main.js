@@ -429,6 +429,18 @@ function scatterplot() {
         .attr('x', 0)
         .attr('y', 20)    
         .text("Pathological Fetus per Normal Fetus: 0.1")
+    
+    var stats2 = stats.append("text")
+        .attr("class", "stats2")
+        .attr('x', 0)
+        .attr('y', 40)    
+        .text("Mean: 0.1")
+    
+    var stats3 = stats.append("text")
+        .attr("class", "stats3")
+        .attr('x', 0)
+        .attr('y', 60)    
+        .text("Median: 0.1")
 
     let brushedCircles_1 = [];
     let brushedCircles_2 = [];
@@ -484,7 +496,11 @@ function scatterplot() {
         counter2.text(`Suspect Fetus: ${brushedCircles_2.size()}`);
         counter3.text(`Pathogocial Fetus: ${brushedCircles_3.size()}`);
         counter4.text(`Total: ${brushedCircles_4.size()}`);
+
+        
         stats1.text(`Pathological Fetus per Normal Fetus: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
+        console.log(counter4)
+        stats2.text(`Mean: ${d3.mean(counter4, function(d){ return d[0] })}`)
 
     }     
     // Reset brush with #reset-brush button
