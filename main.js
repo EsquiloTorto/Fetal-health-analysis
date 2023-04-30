@@ -248,6 +248,7 @@ function scatterplot() {
     .attr('y', 263)
     .text(d3.min(data, d => d['baseline_value']));
 
+
         // Update the plot
     function updatePlotX() {
         // Get the selected x variable from the dropdown
@@ -410,12 +411,24 @@ function scatterplot() {
     .attr('y', 120)
     .text('Total: 2126');
 
-    // Create the counter
-    const counter5 = svg.append('text')
-    .attr('class', 'counter')
-    .attr('x', 0)
-    .attr('y', height + 70)
-    .text('Odds pathological: 0.10');
+    // Deprecated, we are using the 'stats' elements now
+    // const counter5 = svg.append('text')
+    // .attr('class', 'counter')
+    // .attr('x', 0)
+    // .attr('y', height + 70)
+    // .text('Odds pathological: 0.10');
+
+    // statistics
+
+    var stats = d3.select("svg.stats")
+    .attr('width', 400)
+    .attr('height', 200)
+    
+    var stats1 = stats.append("text")
+        .attr("class", "stats1")
+        .attr('x', 0)
+        .attr('y', 20)    
+        .text("Pathological Fetus per Normal Fetus: 0.1")
 
     let brushedCircles_1 = [];
     let brushedCircles_2 = [];
@@ -471,7 +484,7 @@ function scatterplot() {
         counter2.text(`Suspect Fetus: ${brushedCircles_2.size()}`);
         counter3.text(`Pathogocial Fetus: ${brushedCircles_3.size()}`);
         counter4.text(`Total: ${brushedCircles_4.size()}`);
-        counter5.text(`Odds pathological: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
+        stats1.text(`Pathological Fetus per Normal Fetus: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
 
     }     
     // Reset brush with #reset-brush button
