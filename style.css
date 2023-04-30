@@ -1,9 +1,14 @@
+body {
+    background-color: #92A8D1;
+}
+
 .container {
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
     padding: 50px;
     margin-top: 50px;
     margin-bottom: 50px;
     width: 100%;
+    background-color: white;
 }
 
 h1{

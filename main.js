@@ -499,7 +499,6 @@ function scatterplot() {
 
         
         stats1.text(`Pathological Fetus per Normal Fetus: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
-        console.log(counter4)
         stats2.text(`Mean: ${d3.mean(counter4, function(d){ return d[0] })}`)
 
     }     
