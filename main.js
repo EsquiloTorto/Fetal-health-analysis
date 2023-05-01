@@ -108,7 +108,7 @@ function scatterplot() {
       .text(function (d) { return d; }) // text showed in the menu
       .attr("value", function (d) { return d; }) // corresponding value returned by the button
 
-    const margin = { top: 20, right: 200, bottom: 80, left: 60 };
+    const margin = { top: 20, right: 250, bottom: 80, left: 60 };
     const width = 400;
     const height = 400;
 
@@ -363,7 +363,7 @@ function scatterplot() {
     .attr('class', 'counter')
     .attr('x', width*1.1)
     .attr('y', 30)
-    .text('Normal Fetus: 1655');
+    .text('Fetos Normais');
 
     // Legend
     svg.append("rect")
@@ -378,7 +378,7 @@ function scatterplot() {
     .attr('class', 'counter')
     .attr('x', width*1.1)
     .attr('y', 60)
-    .text('Suspect Fetus: 295');
+    .text('Fetos Suspeitos');
 
     // Legend
     svg.append("rect")
@@ -393,7 +393,7 @@ function scatterplot() {
     .attr('class', 'counter')
     .attr('x', width*1.1)
     .attr('y', 90)
-    .text('Pathogocial Fetus: 176');
+    .text('Fetos Patológicos');
 
     // Legend
     svg.append("rect")
@@ -403,23 +403,6 @@ function scatterplot() {
     .attr("height", 9)
     .style("fill", "yellow")
 
-
-    // Create the counter
-    const counter4 = svg.append('text')
-    .attr('class', 'counter')
-    .attr('x', width*1.1)
-    .attr('y', 120)
-    .text('Total: 2126');
-
-    // Deprecated, we are using the 'stats' elements now
-    // const counter5 = svg.append('text')
-    // .attr('class', 'counter')
-    // .attr('x', 0)
-    // .attr('y', height + 70)
-    // .text('Odds pathological: 0.10');
-
-    // statistics
-
     var stats = d3.select("svg.stats")
     .attr('width', 400)
     .attr('height', 200)
@@ -428,19 +411,31 @@ function scatterplot() {
         .attr("class", "stats1")
         .attr('x', 0)
         .attr('y', 20)    
-        .text("Normal Fetus overall: 0.1")
+        .text("Fetos normais: 1655 (78%)")
     
     var stats2 = stats.append("text")
         .attr("class", "stats2")
         .attr('x', 0)
         .attr('y', 40)    
-        .text("Pathological Fetus overall: 0.08")
+        .text("Fetos suspeitos: 295 (14%)")
     
-    var stats3 = stats.append("text")
-        .attr("class", "stats3")
+        var stats3 = stats.append("text")
+        .attr("class", "stats2")
         .attr('x', 0)
         .attr('y', 60)    
-        .text("Pathological Fetus per non Pathological Fetus: 0.09")
+        .text("Fetos patológicos: 176 (8%)")
+    
+    var stats4 = stats.append("text")
+        .attr("class", "stats3")
+        .attr('x', 0)
+        .attr('y', 80)    
+        .text("Chance* do feto ser não patológico: 9%")
+    
+    var stats4_obs = stats.append("text")
+        .attr("class", "stats3")
+        .attr('x', 0)
+        .attr('y', 180)    
+        .text("*chance = #patológico/(#total-#patológico)")
 
     let brushedCircles_1 = [];
     let brushedCircles_2 = [];
@@ -492,15 +487,30 @@ function scatterplot() {
             })
             ;
         }  
-        counter1.text(`Normal Fetus: ${brushedCircles_1.size()}`);
-        counter2.text(`Suspect Fetus: ${brushedCircles_2.size()}`);
-        counter3.text(`Pathogocial Fetus: ${brushedCircles_3.size()}`);
-        counter4.text(`Total: ${brushedCircles_4.size()}`);
-
         
-        stats1.text(`Normal Fetus overall: ${Math.round(brushedCircles_1.size()/brushedCircles_4.size()*100)/100}`)
-        stats2.text(`Pathological Fetus overall: ${Math.round(brushedCircles_3.size()/brushedCircles_4.size()*100)/100}`)
-        stats3.text(`Pathological Fetus per non Pathological Fetus: ${Math.round(brushedCircles_3.size()/(brushedCircles_1.size()+brushedCircles_2.size())*100)/100}`)
+        const n_norm = brushedCircles_1.size()
+        const n_susp = brushedCircles_2.size()
+        const n_path = brushedCircles_3.size()
+        const n_total = n_norm + n_susp + n_path
+
+        const odds = Math.round(n_path/(n_total-n_path)*100)/100
+
+        if (n_total!=0){
+            stats1.text(`Fetos normais: ${n_norm} (${Math.round(n_norm/n_total*100)}%)`)
+            stats2.text(`Fetos suspeitos: ${n_susp} (${Math.round(n_susp/n_total*100)}%)`)
+            stats3.text(`Fetos patológicos: ${n_path} (${Math.round(n_path/n_total*100)}%)`)
+            if (odds<1){
+                stats4.text(`Chance* do feto ser não patológico: 1:${Math.round(100/odds)/100}`)
+            } else{
+                stats4.text(`Chance* do feto ser não patológico: ${odds}:1`)
+            }
+        } else{
+            stats1.text(`Fetos normais: ${n_norm} (${Math.round(n_norm/1*100)}%)`)
+            stats2.text(`Fetos suspeitos: ${n_susp} (${Math.round(n_susp/1*100)}%)`)
+            stats3.text(`Fetos patológicos: ${n_path} (${Math.round(n_path/1*100)}%)`)
+            stats4.text(`Chance* do feto ser não patológico: 0:0`)
+        }
+
 
     }     
     // Reset brush with #reset-brush button
@@ -515,11 +525,10 @@ function scatterplot() {
                 return 'yellow';
             }
         });
-        counter1.text(`Normal Fetus: 1655`);
-        counter2.text(`Suspect Fetus: 295`);
-        counter3.text(`Pathogocial Fetus: 176`);
-        counter4.text(`Total: 2126`);
-        counter5.text(`Odds pathological: 0.10`);
+        stats1.text("Fetos normais: 1655 (78%)")
+        stats2.text("Fetos suspeitos: 295 (14%)")
+        stats3.text("Fetos patológicos: 176 (8%)")
+        stats4.text("Chance* do feto ser não patológico: 9%")
     });
     }); // closing data 'then' statement
 };
