@@ -154,9 +154,26 @@
                     disso, são disponíveis estatísticas considerando apenas os pontos da área selecionada, essa região pode ser redimensionada e 
                     arrastada por toda a visualização.                   
                 </p>
+            </div>
         </div>
-        <br><br>
-    </div>
+            <div class="container">
+                <div class="row">
+                    <h3>Sugestão</h3>
+                    <div class="col-5">
+                        <p>Uma sugestão que fazemos é a seguinte análise:</p>
+                        <ul>
+                            <li>Eixo x: 'abnormal_short_term_variability'</li>
+                            <li>Eixo y: 'histogram_mean'</li>
+                            <li>Raio: 'prolongued_decelerations'</li>
+                        </ul>
+                        <p>O propósito inicial da visualização de scatterplot com interação é que fizesse parte da análise exploratória dos dados. Porém enquanto desenvolviamos esta visualização, encontramos diversos cruzamentos de variáveis que tornava muito evidente a separação entre os fetos normais e os patológicos. Assim tivemos o insight de como esta ferramenta poderia ser utilizada por obstetras para uma análise rápida e preventiva da saúde do feto.</p>
+                        <p>A principal escolha de variáveis que encontramos foi a sugerida acima. Veja na imagem à direita que grande parte dos fetos patológicos se encontra com 'histogram_mean' menor que 110. Não somente isso, mas casos patológicos com 'histogram_mean' entre 110 e 130 também possuem um 'prolongued_decelerations' maior em comapração aos fetos normais no mesmo intervalo. Ademais, vemos que os casos com um 'abnormal_short_term_variability' muito grande tendem a ser suspeitos ou patológicos, independente das outras variáveis. </p>
+                        <p>Acreditar que um obstreta pode coletar dados de um novo paciente e localizá-los nesta visualização foi o que nos levou a seguir com esta visualização. Ficamos felizes com o resultado, e convidamos o visitante deste site a explorar outras diversas combinações de variáveis que podem levar a visualizações tão interessantes quanto a sugerida.</p>
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-6"><img src="model1.png" width="100%"></div>
+                </div>
+            </div>
       <div class="container">
         <div class="row">
         <div class="col-12">
